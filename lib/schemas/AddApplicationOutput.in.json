@@ -1,0 +1,171 @@
+{
+    "type": "object",
+    "properties": {
+        "Action": {
+            "required": true,
+            "type": "string"
+        },
+        "Version": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "description": "<p/>",
+            "properties": {
+                "ApplicationName": {
+                    "description": "Name of the application to which you want to add the output configuration.",
+                    "maxLength": 128,
+                    "minLength": 1,
+                    "pattern": "[a-zA-Z0-9_.-]+",
+                    "type": "string"
+                },
+                "CurrentApplicationVersionId": {
+                    "description": "Version of the application to which you want to add the output configuration. You can use the <a>DescribeApplication</a> operation to get the current application version. If the version specified is not the current version, the <code>ConcurrentModificationException</code> is returned. ",
+                    "maximum": 999999999,
+                    "minimum": 1,
+                    "type": "integer"
+                },
+                "Output": {
+                    "description": "An array of objects, each describing one output configuration. In the output configuration, you specify the name of an in-application stream, a destination (that is, an Amazon Kinesis stream, an Amazon Kinesis Firehose delivery stream, or an AWS Lambda function), and record the formation to use when writing to the destination.",
+                    "properties": {
+                        "DestinationSchema": {
+                            "description": "Describes the data format when records are written to the destination. For more information, see <a href=\"http://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-output.html\">Configuring Application Output</a>.",
+                            "properties": {
+                                "RecordFormatType": {
+                                    "description": "Specifies the format of the records on the output stream.",
+                                    "enum": [
+                                        "JSON",
+                                        "CSV"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "RecordFormatType"
+                            ],
+                            "type": "object"
+                        },
+                        "KinesisFirehoseOutput": {
+                            "description": "Identifies an Amazon Kinesis Firehose delivery stream as the destination.",
+                            "properties": {
+                                "ResourceARN": {
+                                    "description": "ARN of the destination Amazon Kinesis Firehose delivery stream to write to.",
+                                    "maxLength": 2048,
+                                    "minLength": 1,
+                                    "pattern": "arn:.*",
+                                    "type": "string"
+                                },
+                                "RoleARN": {
+                                    "description": "ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination stream on your behalf. You need to grant the necessary permissions to this role.",
+                                    "maxLength": 2048,
+                                    "minLength": 1,
+                                    "pattern": "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "ResourceARN",
+                                "RoleARN"
+                            ],
+                            "type": "object"
+                        },
+                        "KinesisStreamsOutput": {
+                            "description": "Identifies an Amazon Kinesis stream as the destination.",
+                            "properties": {
+                                "ResourceARN": {
+                                    "description": "ARN of the destination Amazon Kinesis stream to write to.",
+                                    "maxLength": 2048,
+                                    "minLength": 1,
+                                    "pattern": "arn:.*",
+                                    "type": "string"
+                                },
+                                "RoleARN": {
+                                    "description": "ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination stream on your behalf. You need to grant the necessary permissions to this role.",
+                                    "maxLength": 2048,
+                                    "minLength": 1,
+                                    "pattern": "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "ResourceARN",
+                                "RoleARN"
+                            ],
+                            "type": "object"
+                        },
+                        "LambdaOutput": {
+                            "description": "Identifies an AWS Lambda function as the destination.",
+                            "properties": {
+                                "ResourceARN": {
+                                    "description": "Amazon Resource Name (ARN) of the destination Lambda function to write to.",
+                                    "maxLength": 2048,
+                                    "minLength": 1,
+                                    "pattern": "arn:.*",
+                                    "type": "string"
+                                },
+                                "RoleARN": {
+                                    "description": "ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination function on your behalf. You need to grant the necessary permissions to this role. ",
+                                    "maxLength": 2048,
+                                    "minLength": 1,
+                                    "pattern": "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "ResourceARN",
+                                "RoleARN"
+                            ],
+                            "type": "object"
+                        },
+                        "Name": {
+                            "description": "Name of the in-application stream.",
+                            "maxLength": 32,
+                            "minLength": 1,
+                            "pattern": "[a-zA-Z][a-zA-Z0-9_]+",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "Name",
+                        "DestinationSchema"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "ApplicationName",
+                "CurrentApplicationVersionId",
+                "Output"
+            ],
+            "type": "object"
+        },
+        "X_Amz_Content_Sha256": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Date": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Algorithm": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Credential": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Security_Token": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Signature": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_SignedHeaders": {
+            "required": false,
+            "type": "string"
+        }
+    }
+}

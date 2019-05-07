@@ -1,0 +1,575 @@
+{
+    "type": "object",
+    "properties": {
+        "Action": {
+            "required": true,
+            "type": "string"
+        },
+        "Version": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "ApplicationName": {
+                    "description": "Name of the Amazon Kinesis Analytics application to update.",
+                    "maxLength": 128,
+                    "minLength": 1,
+                    "pattern": "[a-zA-Z0-9_.-]+",
+                    "type": "string"
+                },
+                "ApplicationUpdate": {
+                    "description": "Describes application updates.",
+                    "properties": {
+                        "ApplicationCodeUpdate": {
+                            "description": "Describes application code updates.",
+                            "maxLength": 102400,
+                            "minLength": 0,
+                            "type": "string"
+                        },
+                        "CloudWatchLoggingOptionUpdates": {
+                            "description": "Describes application CloudWatch logging option updates.",
+                            "items": {
+                                "description": "Describes CloudWatch logging option updates.",
+                                "properties": {
+                                    "CloudWatchLoggingOptionId": {
+                                        "description": "ID of the CloudWatch logging option to update",
+                                        "maxLength": 50,
+                                        "minLength": 1,
+                                        "pattern": "[a-zA-Z0-9_.-]+",
+                                        "type": "string"
+                                    },
+                                    "LogStreamARNUpdate": {
+                                        "description": "ARN of the CloudWatch log to receive application messages.",
+                                        "maxLength": 2048,
+                                        "minLength": 1,
+                                        "pattern": "arn:.*",
+                                        "type": "string"
+                                    },
+                                    "RoleARNUpdate": {
+                                        "description": "IAM ARN of the role to use to send application messages. Note: To write application messages to CloudWatch, the IAM role used must have the <code>PutLogEvents</code> policy action enabled.",
+                                        "maxLength": 2048,
+                                        "minLength": 1,
+                                        "pattern": "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "CloudWatchLoggingOptionId"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "InputUpdates": {
+                            "description": "Describes application input configuration updates.",
+                            "items": {
+                                "description": "Describes updates to a specific input configuration (identified by the <code>InputId</code> of an application). ",
+                                "properties": {
+                                    "InputId": {
+                                        "description": "Input ID of the application input to be updated.",
+                                        "maxLength": 50,
+                                        "minLength": 1,
+                                        "pattern": "[a-zA-Z0-9_.-]+",
+                                        "type": "string"
+                                    },
+                                    "InputParallelismUpdate": {
+                                        "description": "Describes the parallelism updates (the number in-application streams Amazon Kinesis Analytics creates for the specific streaming source).",
+                                        "properties": {
+                                            "CountUpdate": {
+                                                "description": "Number of in-application streams to create for the specified streaming source.",
+                                                "maximum": 64,
+                                                "minimum": 1,
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "InputProcessingConfigurationUpdate": {
+                                        "description": "Describes updates for an input processing configuration.",
+                                        "properties": {
+                                            "InputLambdaProcessorUpdate": {
+                                                "description": "Provides update information for an <a>InputLambdaProcessor</a>.",
+                                                "properties": {
+                                                    "ResourceARNUpdate": {
+                                                        "description": "The Amazon Resource Name (ARN) of the new <a href=\"https://aws.amazon.com/documentation/lambda/\">AWS Lambda</a> function that is used to preprocess the records in the stream.",
+                                                        "maxLength": 2048,
+                                                        "minLength": 1,
+                                                        "pattern": "arn:.*",
+                                                        "type": "string"
+                                                    },
+                                                    "RoleARNUpdate": {
+                                                        "description": "The ARN of the new IAM role that is used to access the AWS Lambda function.",
+                                                        "maxLength": 2048,
+                                                        "minLength": 1,
+                                                        "pattern": "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "required": [
+                                            "InputLambdaProcessorUpdate"
+                                        ],
+                                        "type": "object"
+                                    },
+                                    "InputSchemaUpdate": {
+                                        "description": "Describes the data format on the streaming source, and how record elements on the streaming source map to columns of the in-application stream that is created.",
+                                        "properties": {
+                                            "RecordColumnUpdates": {
+                                                "description": "A list of <code>RecordColumn</code> objects. Each object describes the mapping of the streaming source element to the corresponding column in the in-application stream. ",
+                                                "items": {
+                                                    "description": "<p>Describes the mapping of each data element in the streaming source to the corresponding column in the in-application stream.</p> <p>Also used to describe the format of the reference data source.</p>",
+                                                    "properties": {
+                                                        "Mapping": {
+                                                            "description": "Reference to the data element in the streaming input of the reference data source.",
+                                                            "type": "string"
+                                                        },
+                                                        "Name": {
+                                                            "description": "Name of the column created in the in-application input stream or reference table.",
+                                                            "pattern": "[a-zA-Z_][a-zA-Z0-9_]*",
+                                                            "type": "string"
+                                                        },
+                                                        "SqlType": {
+                                                            "description": "Type of column created in the in-application input stream or reference table.",
+                                                            "minLength": 1,
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "Name",
+                                                        "SqlType"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "maxItems": 1000,
+                                                "minItems": 1,
+                                                "type": "array"
+                                            },
+                                            "RecordEncodingUpdate": {
+                                                "description": "Specifies the encoding of the records in the streaming source. For example, UTF-8.",
+                                                "pattern": "UTF-8",
+                                                "type": "string"
+                                            },
+                                            "RecordFormatUpdate": {
+                                                "description": "Specifies the format of the records on the streaming source.",
+                                                "properties": {
+                                                    "MappingParameters": {
+                                                        "description": "When configuring application input at the time of creating or updating an application, provides additional mapping information specific to the record format (such as JSON, CSV, or record fields delimited by some delimiter) on the streaming source.",
+                                                        "properties": {
+                                                            "CSVMappingParameters": {
+                                                                "description": "Provides additional mapping information when the record format uses delimiters (for example, CSV).",
+                                                                "properties": {
+                                                                    "RecordColumnDelimiter": {
+                                                                        "description": "Column delimiter. For example, in a CSV format, a comma (\",\") is the typical column delimiter.",
+                                                                        "minLength": 1,
+                                                                        "type": "string"
+                                                                    },
+                                                                    "RecordRowDelimiter": {
+                                                                        "description": "Row delimiter. For example, in a CSV format, <i>'\\n'</i> is the typical row delimiter.",
+                                                                        "minLength": 1,
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "required": [
+                                                                    "RecordRowDelimiter",
+                                                                    "RecordColumnDelimiter"
+                                                                ],
+                                                                "type": "object"
+                                                            },
+                                                            "JSONMappingParameters": {
+                                                                "description": "Provides additional mapping information when JSON is the record format on the streaming source.",
+                                                                "properties": {
+                                                                    "RecordRowPath": {
+                                                                        "description": "Path to the top-level parent that contains the records.",
+                                                                        "minLength": 1,
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "required": [
+                                                                    "RecordRowPath"
+                                                                ],
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "RecordFormatType": {
+                                                        "description": "The type of record format.",
+                                                        "enum": [
+                                                            "JSON",
+                                                            "CSV"
+                                                        ],
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "RecordFormatType"
+                                                ],
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "KinesisFirehoseInputUpdate": {
+                                        "description": "If an Amazon Kinesis Firehose delivery stream is the streaming source to be updated, provides an updated stream ARN and IAM role ARN.",
+                                        "properties": {
+                                            "ResourceARNUpdate": {
+                                                "description": "Amazon Resource Name (ARN) of the input Amazon Kinesis Firehose delivery stream to read.",
+                                                "maxLength": 2048,
+                                                "minLength": 1,
+                                                "pattern": "arn:.*",
+                                                "type": "string"
+                                            },
+                                            "RoleARNUpdate": {
+                                                "description": "ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.",
+                                                "maxLength": 2048,
+                                                "minLength": 1,
+                                                "pattern": "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "KinesisStreamsInputUpdate": {
+                                        "description": "If an Amazon Kinesis stream is the streaming source to be updated, provides an updated stream Amazon Resource Name (ARN) and IAM role ARN.",
+                                        "properties": {
+                                            "ResourceARNUpdate": {
+                                                "description": "Amazon Resource Name (ARN) of the input Amazon Kinesis stream to read.",
+                                                "maxLength": 2048,
+                                                "minLength": 1,
+                                                "pattern": "arn:.*",
+                                                "type": "string"
+                                            },
+                                            "RoleARNUpdate": {
+                                                "description": "ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.",
+                                                "maxLength": 2048,
+                                                "minLength": 1,
+                                                "pattern": "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "NamePrefixUpdate": {
+                                        "description": "Name prefix for in-application streams that Amazon Kinesis Analytics creates for the specific streaming source.",
+                                        "maxLength": 32,
+                                        "minLength": 1,
+                                        "pattern": "[a-zA-Z][a-zA-Z0-9_]+",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "InputId"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "OutputUpdates": {
+                            "description": "Describes application output configuration updates.",
+                            "items": {
+                                "description": " Describes updates to the output configuration identified by the <code>OutputId</code>. ",
+                                "properties": {
+                                    "DestinationSchemaUpdate": {
+                                        "description": "Describes the data format when records are written to the destination. For more information, see <a href=\"http://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-output.html\">Configuring Application Output</a>.",
+                                        "properties": {
+                                            "RecordFormatType": {
+                                                "description": "Specifies the format of the records on the output stream.",
+                                                "enum": [
+                                                    "JSON",
+                                                    "CSV"
+                                                ],
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "RecordFormatType"
+                                        ],
+                                        "type": "object"
+                                    },
+                                    "KinesisFirehoseOutputUpdate": {
+                                        "description": "Describes an Amazon Kinesis Firehose delivery stream as the destination for the output.",
+                                        "properties": {
+                                            "ResourceARNUpdate": {
+                                                "description": "Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream to write to.",
+                                                "maxLength": 2048,
+                                                "minLength": 1,
+                                                "pattern": "arn:.*",
+                                                "type": "string"
+                                            },
+                                            "RoleARNUpdate": {
+                                                "description": "ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.",
+                                                "maxLength": 2048,
+                                                "minLength": 1,
+                                                "pattern": "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "KinesisStreamsOutputUpdate": {
+                                        "description": "Describes an Amazon Kinesis stream as the destination for the output.",
+                                        "properties": {
+                                            "ResourceARNUpdate": {
+                                                "description": "Amazon Resource Name (ARN) of the Amazon Kinesis stream where you want to write the output.",
+                                                "maxLength": 2048,
+                                                "minLength": 1,
+                                                "pattern": "arn:.*",
+                                                "type": "string"
+                                            },
+                                            "RoleARNUpdate": {
+                                                "description": "ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.",
+                                                "maxLength": 2048,
+                                                "minLength": 1,
+                                                "pattern": "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "LambdaOutputUpdate": {
+                                        "description": "Describes an AWS Lambda function as the destination for the output.",
+                                        "properties": {
+                                            "ResourceARNUpdate": {
+                                                "description": "Amazon Resource Name (ARN) of the destination Lambda function.",
+                                                "maxLength": 2048,
+                                                "minLength": 1,
+                                                "pattern": "arn:.*",
+                                                "type": "string"
+                                            },
+                                            "RoleARNUpdate": {
+                                                "description": "ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination function on your behalf. You need to grant the necessary permissions to this role. ",
+                                                "maxLength": 2048,
+                                                "minLength": 1,
+                                                "pattern": "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "NameUpdate": {
+                                        "description": "If you want to specify a different in-application stream for this output configuration, use this field to specify the new in-application stream name.",
+                                        "maxLength": 32,
+                                        "minLength": 1,
+                                        "pattern": "[a-zA-Z][a-zA-Z0-9_]+",
+                                        "type": "string"
+                                    },
+                                    "OutputId": {
+                                        "description": "Identifies the specific output configuration that you want to update.",
+                                        "maxLength": 50,
+                                        "minLength": 1,
+                                        "pattern": "[a-zA-Z0-9_.-]+",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "OutputId"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "ReferenceDataSourceUpdates": {
+                            "description": "Describes application reference data source updates.",
+                            "items": {
+                                "description": "When you update a reference data source configuration for an application, this object provides all the updated values (such as the source bucket name and object key name), the in-application table name that is created, and updated mapping information that maps the data in the Amazon S3 object to the in-application reference table that is created.",
+                                "properties": {
+                                    "ReferenceId": {
+                                        "description": "ID of the reference data source being updated. You can use the <a>DescribeApplication</a> operation to get this value.",
+                                        "maxLength": 50,
+                                        "minLength": 1,
+                                        "pattern": "[a-zA-Z0-9_.-]+",
+                                        "type": "string"
+                                    },
+                                    "ReferenceSchemaUpdate": {
+                                        "description": "Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream. ",
+                                        "properties": {
+                                            "RecordColumns": {
+                                                "description": "A list of <code>RecordColumn</code> objects.",
+                                                "items": {
+                                                    "description": "<p>Describes the mapping of each data element in the streaming source to the corresponding column in the in-application stream.</p> <p>Also used to describe the format of the reference data source.</p>",
+                                                    "properties": {
+                                                        "Mapping": {
+                                                            "description": "Reference to the data element in the streaming input of the reference data source.",
+                                                            "type": "string"
+                                                        },
+                                                        "Name": {
+                                                            "description": "Name of the column created in the in-application input stream or reference table.",
+                                                            "pattern": "[a-zA-Z_][a-zA-Z0-9_]*",
+                                                            "type": "string"
+                                                        },
+                                                        "SqlType": {
+                                                            "description": "Type of column created in the in-application input stream or reference table.",
+                                                            "minLength": 1,
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "Name",
+                                                        "SqlType"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "maxItems": 1000,
+                                                "minItems": 1,
+                                                "type": "array"
+                                            },
+                                            "RecordEncoding": {
+                                                "description": "Specifies the encoding of the records in the streaming source. For example, UTF-8.",
+                                                "pattern": "UTF-8",
+                                                "type": "string"
+                                            },
+                                            "RecordFormat": {
+                                                "description": "Specifies the format of the records on the streaming source.",
+                                                "properties": {
+                                                    "MappingParameters": {
+                                                        "description": "When configuring application input at the time of creating or updating an application, provides additional mapping information specific to the record format (such as JSON, CSV, or record fields delimited by some delimiter) on the streaming source.",
+                                                        "properties": {
+                                                            "CSVMappingParameters": {
+                                                                "description": "Provides additional mapping information when the record format uses delimiters (for example, CSV).",
+                                                                "properties": {
+                                                                    "RecordColumnDelimiter": {
+                                                                        "description": "Column delimiter. For example, in a CSV format, a comma (\",\") is the typical column delimiter.",
+                                                                        "minLength": 1,
+                                                                        "type": "string"
+                                                                    },
+                                                                    "RecordRowDelimiter": {
+                                                                        "description": "Row delimiter. For example, in a CSV format, <i>'\\n'</i> is the typical row delimiter.",
+                                                                        "minLength": 1,
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "required": [
+                                                                    "RecordRowDelimiter",
+                                                                    "RecordColumnDelimiter"
+                                                                ],
+                                                                "type": "object"
+                                                            },
+                                                            "JSONMappingParameters": {
+                                                                "description": "Provides additional mapping information when JSON is the record format on the streaming source.",
+                                                                "properties": {
+                                                                    "RecordRowPath": {
+                                                                        "description": "Path to the top-level parent that contains the records.",
+                                                                        "minLength": 1,
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "required": [
+                                                                    "RecordRowPath"
+                                                                ],
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "RecordFormatType": {
+                                                        "description": "The type of record format.",
+                                                        "enum": [
+                                                            "JSON",
+                                                            "CSV"
+                                                        ],
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "RecordFormatType"
+                                                ],
+                                                "type": "object"
+                                            }
+                                        },
+                                        "required": [
+                                            "RecordFormat",
+                                            "RecordColumns"
+                                        ],
+                                        "type": "object"
+                                    },
+                                    "S3ReferenceDataSourceUpdate": {
+                                        "description": "Describes the S3 bucket name, object key name, and IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object on your behalf and populate the in-application reference table.",
+                                        "properties": {
+                                            "BucketARNUpdate": {
+                                                "description": "Amazon Resource Name (ARN) of the S3 bucket.",
+                                                "maxLength": 2048,
+                                                "minLength": 1,
+                                                "pattern": "arn:.*",
+                                                "type": "string"
+                                            },
+                                            "FileKeyUpdate": {
+                                                "description": "Object key name.",
+                                                "maxLength": 1024,
+                                                "minLength": 1,
+                                                "type": "string"
+                                            },
+                                            "ReferenceRoleARNUpdate": {
+                                                "description": "ARN of the IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object and populate the in-application.",
+                                                "maxLength": 2048,
+                                                "minLength": 1,
+                                                "pattern": "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "TableNameUpdate": {
+                                        "description": "In-application table name that is created by this update.",
+                                        "maxLength": 32,
+                                        "minLength": 1,
+                                        "pattern": "[a-zA-Z][a-zA-Z0-9_]+",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "ReferenceId"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "type": "object"
+                },
+                "CurrentApplicationVersionId": {
+                    "description": "The current application version ID. You can use the <a>DescribeApplication</a> operation to get this value.",
+                    "maximum": 999999999,
+                    "minimum": 1,
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "ApplicationName",
+                "CurrentApplicationVersionId",
+                "ApplicationUpdate"
+            ],
+            "type": "object"
+        },
+        "X_Amz_Content_Sha256": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Date": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Algorithm": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Credential": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Security_Token": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Signature": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_SignedHeaders": {
+            "required": false,
+            "type": "string"
+        }
+    }
+}

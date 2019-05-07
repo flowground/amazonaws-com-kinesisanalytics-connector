@@ -1,0 +1,88 @@
+{
+    "type": "object",
+    "properties": {
+        "Action": {
+            "required": true,
+            "type": "string"
+        },
+        "Version": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "ApplicationName": {
+                    "description": "The Kinesis Analytics application name.",
+                    "maxLength": 128,
+                    "minLength": 1,
+                    "pattern": "[a-zA-Z0-9_.-]+",
+                    "type": "string"
+                },
+                "CloudWatchLoggingOption": {
+                    "description": "Provides the CloudWatch log stream Amazon Resource Name (ARN) and the IAM role ARN. Note: To write application messages to CloudWatch, the IAM role that is used must have the <code>PutLogEvents</code> policy action enabled.",
+                    "properties": {
+                        "LogStreamARN": {
+                            "description": "ARN of the CloudWatch log to receive application messages.",
+                            "maxLength": 2048,
+                            "minLength": 1,
+                            "pattern": "arn:.*",
+                            "type": "string"
+                        },
+                        "RoleARN": {
+                            "description": "IAM ARN of the role to use to send application messages. Note: To write application messages to CloudWatch, the IAM role that is used must have the <code>PutLogEvents</code> policy action enabled.",
+                            "maxLength": 2048,
+                            "minLength": 1,
+                            "pattern": "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "LogStreamARN",
+                        "RoleARN"
+                    ],
+                    "type": "object"
+                },
+                "CurrentApplicationVersionId": {
+                    "description": "The version ID of the Kinesis Analytics application.",
+                    "maximum": 999999999,
+                    "minimum": 1,
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "ApplicationName",
+                "CurrentApplicationVersionId",
+                "CloudWatchLoggingOption"
+            ],
+            "type": "object"
+        },
+        "X_Amz_Content_Sha256": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Date": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Algorithm": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Credential": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Security_Token": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Signature": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_SignedHeaders": {
+            "required": false,
+            "type": "string"
+        }
+    }
+}
