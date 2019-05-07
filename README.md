@@ -1,11 +1,11 @@
-# ![LOGO](logo.png) Amazon Kinesis Analytics MSP Connector
+# ![LOGO](logo.png) Amazon Kinesis Analytics **flow**ground Connector
 
 ## Description
 
-A generated MSP connector for the Amazon Kinesis Analytics API (version 2015-08-14).
+A generated **flow**ground connector for the Amazon Kinesis Analytics API (version 2015-08-14).
 
 Generated from: https://api.apis.guru/v2/specs/amazonaws.com/kinesisanalytics/2015-08-14/swagger.json<br/>
-Generated at: 2019-05-07T11:16:11+03:00
+Generated at: 2019-05-07T17:35:52+03:00
 
 ## API Description
 
@@ -240,7 +240,7 @@ Supported authorization schemes:
 
 ## License
 
-flowground :- Telekom iPaaS / amazonaws-com-kinesisanalytics-connector<br/>
+**flow**ground :- Telekom iPaaS / amazonaws-com-kinesisanalytics-connector<br/>
 Copyright © 2019, [Deutsche Telekom AG](https://www.telekom.de)<br/>
 contact: flowground@telekom.de
 
