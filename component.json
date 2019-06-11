@@ -1,5 +1,5 @@
 {
-    "title": "Amazon Kinesis Analytics",
+    "title": "Amazon Kinesis Analytics (kinesisanalytics)",
     "docsUrl": "https://aws.amazon.com/kinesisanalytics/",
     "url": "https://api.apis.guru/v2/specs/amazonaws.com/kinesisanalytics/2015-08-14/swagger.json",
     "envVars": {},
@@ -19,7 +19,7 @@
                 "label": "Custom Server URL",
                 "viewClass": "TextFieldView"
             },
-            "hmac": {
+            "auth_hmac": {
                 "label": "Authorization (hmac)",
                 "viewClass": "TextFieldView",
                 "note": "Amazon Signature authorization v4"

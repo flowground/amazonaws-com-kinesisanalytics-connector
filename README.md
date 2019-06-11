@@ -5,7 +5,7 @@
 A generated **flow**ground connector for the Amazon Kinesis Analytics API (version 2015-08-14).
 
 Generated from: https://api.apis.guru/v2/specs/amazonaws.com/kinesisanalytics/2015-08-14/swagger.json<br/>
-Generated at: 2019-05-07T17:35:52+03:00
+Generated at: 2019-06-11T18:13:10+03:00
 
 ## API Description
 
